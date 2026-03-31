@@ -1,6 +1,8 @@
 package org.example;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.PriorityQueue;
 
 public class LongestSubstringDintinctCharacters {
     public static void main(String[] args) {
@@ -15,6 +17,7 @@ public class LongestSubstringDintinctCharacters {
         int left = 0;
         int max = 0;
         int bestStart = 0;
+        var priorityQueue = new PriorityQueue<Character>((a,b)-> frequency.get(a)-frequency.get(b));
 
        for (int right = 0; right <string.length(); right++){
            char c = string.charAt(right);
@@ -27,10 +30,22 @@ public class LongestSubstringDintinctCharacters {
                }
                left++;
            }
+
            if(right-left + 1 > max) {
                max = right - left + 1;
                bestStart = left;
            }
+       }
+       for(Character pq : frequency.keySet()){
+           priorityQueue.add(pq);
+           // now tow k elements will be based on priority
+           if(priorityQueue.size() >distinctCount) {
+               priorityQueue.poll();
+           }
+
+       }
+       while (!priorityQueue.isEmpty()){
+           System.out.println("top frequency:"+ priorityQueue.poll());
        }
 
        return string.substring(bestStart, bestStart + max);
