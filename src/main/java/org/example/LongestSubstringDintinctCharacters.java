@@ -1,5 +1,6 @@
 package org.example;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.PriorityQueue;
@@ -10,6 +11,10 @@ public class LongestSubstringDintinctCharacters {
         // so repeatation is allowed but no of distinct character should be k
 
         System.out.println("subarry is:" + distinctSubstring("eceba", 2));
+
+        List<String> result = new ArrayList<>();
+        permutation("ABC", new StringBuilder(), new boolean["ABC".length()],result);
+        result.stream().forEach(a-> System.out.println(a));
 
     }
     public  static String distinctSubstring(String string, int distinctCount){
@@ -49,6 +54,25 @@ public class LongestSubstringDintinctCharacters {
        }
 
        return string.substring(bestStart, bestStart + max);
+    }
+
+    public static void permutation(String s, StringBuilder current, boolean[] used, List<String> result){
+        if(s.length() == current.length()){
+            result.add(current.toString());
+            return;
+        }
+
+        for(int i = 0; i<s.length();i++){
+            if(used[i]){
+                continue;
+            }
+
+            used[i] = true;
+            current.append(s.charAt(i));
+            permutation(s, current,used, result);
+            used[i] = false;
+            current.deleteCharAt(current.length()-1);
+        }
     }
 
 
